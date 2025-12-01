@@ -1,0 +1,36 @@
+/ HomeController:index
+/blog BlogController:index
+/blog/* BlogController:show
+
+$handle = fopen("config/routes.txt", "r"); // open the file
+if ($handle) { // if the file exists
+
+    while (($line = fgets($handle)) !== false) { // read it line by line
+
+array $route = [
+    "path" => "the path (/ ou /blog ou /blog/*)",
+    "parameter" => "(optionnel) si la route attend un paramètre (true ou false)",
+    "controller" => "le controller ( HomeController ou BlogController)",
+    "method" => "la méthode à appeler dans le controller (index ou show)"
+];
+
+str_replace(PHP_EOL, '', $line);
+
+explode(" ", $line);
+
+if(substr_count($route["path"], "/") > 1) {
+    $route["parameter"] = true;
+    $pathData = explode("/", $route["path"]);
+    $route["path"] = "/".$pathData[1];
+}
+else {
+    $route["parameter"] = false;
+}
+
+$controllerData = explode(":", $controllerString);
+$route["controller"] = $controllerData[0];
+$route["method"] = $controllerData[1];
+
+$routes[] = $route;
+
+fclose($handle); // close the file
