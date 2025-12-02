@@ -12,5 +12,3 @@ class BlogController
         require "templates/blog_show.phtml";
     }
 }
-
-?>
